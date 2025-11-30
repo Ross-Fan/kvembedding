@@ -5,8 +5,8 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 from typing import List, Tuple
 import numpy as np
-import kv_core
-from kv_optimizer import KVAdamOptimizer
+import kv_table
+from kv_table.optimizer import KVAdamOptimizer
 # import hkv_embedding
 # from hkv_embedding.optimizer import HKVOptimizer, HKVAdamOptimizer, HKVAdagrad
 
@@ -47,7 +47,7 @@ class MatrixFactorization(nn.Module):
         # self.user_embedding = nn.Embedding(num_users, embedding_dim)
         # self.item_embedding = nn.Embedding(num_items, embedding_dim)
 
-        self.single_embedding = kv_embedding.KVEmbedding(embedding_dim, 0.0, 0.001)
+        self.single_embedding = kv_table.KVEmbedding(embedding_dim, 0.0, 0.001)
         # self.user_embedding = kv_embedding.KVEmbedding(embedding_dim, 0.0, 0.001)
         # self.item_embedding = kv_embedding.KVEmbedding(embedding_dim, 0.0, 0.001)
 

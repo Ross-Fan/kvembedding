@@ -1,12 +1,16 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/operators.h>
-#include <torch/torch.h>
+// #include <torch/torch.h>
+#include <torch/extension.h>  // This is the key header
 #include "kv_core.hpp"
 
 namespace py = pybind11;
 
 PYBIND11_MODULE(kv_core_backend, m) {
+    // Enable torch::Tensor binding
+    // py::class_<torch::Tensor>(m, "Tensor");
+
     py::class_<KVEmbeddingCore>(m, "KVEmbeddingCore")
         .def(py::init<int, double, double>())
         .def("fetch_vector", &KVEmbeddingCore::fetch_vector)
