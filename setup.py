@@ -10,33 +10,38 @@ __version__ = "0.1.0"
 
 # Get the directory of this setup.py file
 here = os.path.dirname(os.path.abspath(__file__))
+torch_include_dirs = cpp_extension.include_paths()
+print("::torch_include_dirs:", torch_include_dirs)
 
 ext_modules = [
     Pybind11Extension(
-        "hkv_embedding._C",
+        "kv_table.kv_core_backend",
         [
             "src/kv_core.cpp",
             "src/kv_core_binding.cpp"
         ],
         include_dirs=[
             "src",
-            cpp_extension.include_paths()[0],  # PyTorch includes
-        ],
-        cxx_std=14,
-        extra_compile_args=["-O3", "-fopenmp"],
-        extra_link_args=["-fopenmp"],
+            
+        ] + torch_include_dirs,
+        cxx_std=17,
+        # extra_compile_args=["-O3", "-fopenmp"],
+        # extra_link_args=["-fopenmp"],
+        extra_compile_args=["-O3"],  # Removed -fopenmp
+        extra_link_args=[],          # Removed -fopenmp
     ),
 ]
 
 setup(
-    name="hkv_embedding",
+    name="kv_table",
     version=__version__,
     author="Your Name",
     author_email="your.email@example.com",
-    url="https://github.com/yourusername/hkv_embedding",
+    url="https://github.com/yourusername/kv_embedding",
     description="High-performance key-value embedding for PyTorch",
     long_description="",
-    packages=find_packages(),
+    packages=find_packages(where="python"),  # Specify python directory
+    package_dir={"": "python"},              # Map root package to python directory
     ext_modules=ext_modules,
     install_requires=[
         "torch>=1.9.0",

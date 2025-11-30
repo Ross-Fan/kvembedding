@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from typing import List, Dict, Tuple, Union
-from ._C import KVEmbeddingCore  # C++ extension
+from kv_table.kv_core_backend import KVEmbeddingCore  # C++ extension
 
 
 class KVEmbeddingFunction(torch.autograd.Function):

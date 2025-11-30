@@ -6,7 +6,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+PYBIND11_MODULE(kv_core_backend, m) {
     py::class_<KVEmbeddingCore>(m, "KVEmbeddingCore")
         .def(py::init<int, double, double>())
         .def("fetch_vector", &KVEmbeddingCore::fetch_vector)
