@@ -20,7 +20,7 @@ set_target_properties(kv_core PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}"
                                          SUFFIX "${PYTHON_MODULE_EXTENSION}")
 
 # Link libraries
-target_link_libraries(kv_core ${TORCH_LIBRARIES} pybind11::module)
+target_link_libraries(kv_core ${TORCH_LIBRARIES} pybind11::module absl::flat_hash_map)
 target_include_directories(kv_core PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
 # Compiler options
