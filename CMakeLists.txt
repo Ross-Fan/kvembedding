@@ -26,6 +26,7 @@ endif()
 set(ABSL_PROPAGATE_CXX_STD ON)
 set(ABSL_BUILD_TESTING OFF)
 set(ABSL_USE_EXTERNAL_GOOGLETEST OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_subdirectory(third_party/abseil-cpp)
 
 # # Add source files
@@ -44,8 +45,6 @@ target_link_libraries(kv_core_backend
     PRIVATE 
     ${TORCH_LIBRARIES}
     absl::flat_hash_map
-    
-    absl::hash
     
 )
 
