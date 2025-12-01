@@ -5,13 +5,15 @@ from pybind11.setup_helpers import Pybind11Extension, build_ext
 from setuptools import setup, find_packages
 # Import cpp_extension from torch.utils
 from torch.utils import cpp_extension
+from torch.utils.cpp_extension import BuildExtension, CppExtension
+from setuptools import setup, find_packages
 
 __version__ = "0.1.0"
 
 # Get the directory of this setup.py file
 here = os.path.dirname(os.path.abspath(__file__))
-torch_include_dirs = cpp_extension.include_paths()
-print("::torch_include_dirs:", torch_include_dirs)
+# torch_include_dirs = cpp_extension.include_paths()
+# print("::torch_include_dirs:", torch_include_dirs)
 
 # Try to find Abseil headers
 # we use it as from internal path 
@@ -36,24 +38,24 @@ absl_include_dirs = [os.path.join(here, 'third_party', 'abseil-cpp')]
 #             break
 print("::absl_include_dirs:", absl_include_dirs)
 
-ext_modules = [
-    Pybind11Extension(
-        "kv_table.kv_core_backend",
-        [
-            "src/kv_core.cpp",
-            "src/kv_core_binding.cpp"
-        ],
-        include_dirs=[
-            "src",
+# ext_modules = [
+#     Pybind11Extension(
+#         "kv_table.kv_core_backend",
+#         [
+#             "src/kv_core.cpp",
+#             "src/kv_core_binding.cpp"
+#         ],
+#         include_dirs=[
+#             "src",
             
-        ] + torch_include_dirs + absl_include_dirs,
-        cxx_std=17,
-        # extra_compile_args=["-O3", "-fopenmp"],
-        # extra_link_args=["-fopenmp"],
-        extra_compile_args=["-O3"],  # Removed -fopenmp
-        extra_link_args=[],          # Removed -fopenmp
-    ),
-]
+#         ] + torch_include_dirs + absl_include_dirs,
+#         cxx_std=17,
+#         # extra_compile_args=["-O3", "-fopenmp"],
+#         # extra_link_args=["-fopenmp"],
+#         extra_compile_args=["-O3"],  # Removed -fopenmp
+#         extra_link_args=[],          # Removed -fopenmp
+#     ),
+# ]
 
 setup(
     name="kv_table",
@@ -65,14 +67,26 @@ setup(
     long_description="",
     packages=find_packages(where="python"),  # Specify python directory
     package_dir={"": "python"},              # Map root package to python directory
-    ext_modules=ext_modules,
+    ext_modules=[
+        CppExtension(
+            name='kv_table.kv_core_backend',
+            sources=[
+                'src/kv_core.cpp',
+                'src/kv_core_binding.cpp'
+            ],
+            include_dirs=[
+                'src',
+            ] + absl_include_dirs,
+            extra_compile_args=['-O3', '-std=c++17'],
+        ),
+    ],
     install_requires=[
         "torch>=1.9.0",
     ],
     setup_requires=[
         "pybind11>=2.5.0",
     ],
-    cmdclass={"build_ext": build_ext},
+    cmdclass={"build_ext": BuildExtension},
     zip_safe=False,
     python_requires=">=3.6",
 )
