@@ -87,10 +87,25 @@ class CMakeBuildExt(build_ext):
 #     ),
 # ]
 # 简化的扩展模块定义（实际构建由 CMake 完成）
+# ext_modules = [
+#     Pybind11Extension(
+#         "kv_table.kv_core_backend",
+#         ["src/kv_core_binding.cpp"],  # 这只是一个占位符
+#     ),
+# ]
+# 简化的扩展模块定义（实际构建由 CMake 完成）
 ext_modules = [
     Pybind11Extension(
         "kv_table.kv_core_backend",
-        ["src/kv_core_binding.cpp"],  # 这只是一个占位符
+        [
+            "src/kv_core.cpp",
+            "src/kv_core_binding.cpp"
+        ],
+        include_dirs=[
+            "src",
+        ],
+        cxx_std=17,
+        extra_compile_args=["-O3"],
     ),
 ]
 
