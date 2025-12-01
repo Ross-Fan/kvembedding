@@ -1,15 +1,21 @@
 #pragma once
 
-#include <unordered_map>
+// #include <unordered_map>
 #include <vector>
 #include <tuple>
 #include <torch/torch.h>
+#include "absl/container/flat_hash_map.h"
 
 class KVEmbeddingCore {
 private:
-    std::unordered_map<int64_t, torch::Tensor> embeddings_;
-    std::unordered_map<int64_t, std::tuple<torch::Tensor, torch::Tensor, int>> momentum_states_;
-    std::unordered_map<int64_t, torch::Tensor> grad_accumulator_;
+    // std::unordered_map<int64_t, torch::Tensor> embeddings_;
+    // std::unordered_map<int64_t, std::tuple<torch::Tensor, torch::Tensor, int>> momentum_states_;
+    // std::unordered_map<int64_t, torch::Tensor> grad_accumulator_;
+    // 使用 absl::flat_hash_map 替代 std::unordered_map
+    absl::flat_hash_map<int64_t, torch::Tensor> embeddings_;
+    absl::flat_hash_map<int64_t, std::tuple<torch::Tensor, torch::Tensor, int>> momentum_states_;
+    absl::flat_hash_map<int64_t, torch::Tensor> grad_accumulator_;
+    
     
     int embedding_dim_;
     double init_mean_, init_std_;
@@ -35,6 +41,9 @@ public:
     int64_t get_embedding_count();
     
     // Accessor methods for debugging
-    std::unordered_map<int64_t, torch::Tensor>& get_embeddings() { return embeddings_; }
-    std::unordered_map<int64_t, torch::Tensor>& get_grad_accumulator() { return grad_accumulator_; }
+    // std::unordered_map<int64_t, torch::Tensor>& get_embeddings() { return embeddings_; }
+    // std::unordered_map<int64_t, torch::Tensor>& get_grad_accumulator() { return grad_accumulator_; }
+    absl::flat_hash_map<int64_t, torch::Tensor>& get_embeddings() { return embeddings_; }
+    absl::flat_hash_map<int64_t, torch::Tensor>& get_grad_accumulator() { return grad_accumulator_; }
+
 };

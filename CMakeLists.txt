@@ -9,6 +9,10 @@ find_package(Torch REQUIRED)
 find_package(Python COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED)
 
+# Add Abseil as subdirectory
+set(ABSL_PROPAGATE_CXX_STD ON)
+add_subdirectory(third_party/abseil-cpp)
+
 # Add source files
 add_library(kv_core SHARED
     src/kv_core.cpp
