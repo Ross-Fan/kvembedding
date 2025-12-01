@@ -44,23 +44,9 @@ target_link_libraries(kv_core_backend
     PRIVATE 
     ${TORCH_LIBRARIES}
     absl::flat_hash_map
-    absl::raw_hash_set
+    
     absl::hash
-    absl::city
-    absl::low_level_hash
-    absl::container_common
-    absl::strings
-    absl::str_format
-    absl::base
-    absl::memory
-    absl::meta
-    absl::numeric
-    absl::span
-    absl::utility
-    absl::type_traits
-    absl::bits
-    absl::core_headers
-    absl::log_severity
+    
 )
 
 # Set properties
