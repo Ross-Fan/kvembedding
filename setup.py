@@ -17,6 +17,10 @@ here = os.path.dirname(os.path.abspath(__file__))
 torch_include_dirs = cpp_extension.include_paths()
 print("::torch_include_dirs:", torch_include_dirs)
 
+# 配置 Abseil 包含路径
+absl_include_dirs = [os.path.join(here, 'third_party', 'abseil-cpp')]
+
+
 # Try to find Abseil headers
 # we use it as from internal path 
 # absl_include_dirs = [os.path.join(here, 'third_party', 'abseil-cpp')]
@@ -103,7 +107,7 @@ ext_modules = [
         ],
         include_dirs=[
             "src",
-        ] + torch_include_dirs,
+        ] + torch_include_dirs + absl_include_dirs,
         cxx_std=17,
         extra_compile_args=["-O3"],
     ),
