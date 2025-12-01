@@ -126,7 +126,7 @@ setup(
     setup_requires=[
         "pybind11>=2.5.0",
     ],
-    cmdclass={"build_ext": CMakeBuildExt},
+    cmdclass={"build_ext": build_ext},
     zip_safe=False,
     python_requires=">=3.6",
 )
