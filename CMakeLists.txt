@@ -9,6 +9,19 @@ find_package(Torch REQUIRED)
 find_package(Python COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED)
 
+if(DEFINED ENV{PYTHONPATH})
+    # 尝试从 Python 路径推断 PyTorch 路径
+    execute_process(
+        COMMAND python -c "import torch; print(torch.utils.cmake_prefix_path)"
+        OUTPUT_VARIABLE TORCH_CMAKE_PATH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(TORCH_CMAKE_PATH)
+        list(APPEND CMAKE_PREFIX_PATH ${TORCH_CMAKE_PATH})
+    endif()
+endif()
+
 # Add Abseil as subdirectory
 set(ABSL_PROPAGATE_CXX_STD ON)
 set(ABSL_BUILD_TESTING OFF)
